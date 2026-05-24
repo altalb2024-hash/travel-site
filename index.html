@@ -16,7 +16,20 @@
     }
 
     h1{
+      margin-bottom:10px;
+    }
+
+    /* أدوات التحكم */
+    .controls{
       margin-bottom:15px;
+    }
+
+    select{
+      padding:10px;
+      border-radius:10px;
+      font-size:16px;
+      border:1px solid #ccc;
+      cursor:pointer;
     }
 
     input{
@@ -25,7 +38,7 @@
       padding:12px;
       border-radius:10px;
       border:1px solid #ccc;
-      margin-bottom:20px;
+      margin-bottom:15px;
       font-size:16px;
     }
 
@@ -75,10 +88,6 @@
       width:100%;
       font-size:16px;
     }
-
-    .hidden{
-      display:none;
-    }
   </style>
 </head>
 
@@ -86,13 +95,23 @@
 
 <h1>✈️ رحلات مكتب السفر</h1>
 
+<!-- البحث -->
 <input type="text" id="search" placeholder="ابحث عن رحلة">
+
+<!-- الترتيب -->
+<div class="controls">
+  <select id="sort">
+    <option value="default">ترتيب الرحلات</option>
+    <option value="priceLow">السعر: من الأرخص للأغلى</option>
+    <option value="priceHigh">السعر: من الأغلى للأرخص</option>
+    <option value="name">حسب الاسم</option>
+  </select>
+</div>
 
 <div class="container" id="cards">
 
-  <!-- رحلة 1 -->
-  <div class="card">
-    <img src="https://source.unsplash.com/600x400/?mashhad,iran" alt="">
+  <div class="card" data-price="250" data-name="مشهد">
+    <img src="https://source.unsplash.com/600x400/?mashhad" />
     <div class="content">
       <h2>بغداد → مشهد</h2>
       <p class="price">250$</p>
@@ -102,9 +121,8 @@
     </div>
   </div>
 
-  <!-- رحلة 2 -->
-  <div class="card">
-    <img src="https://source.unsplash.com/600x400/?istanbul,city" alt="">
+  <div class="card" data-price="300" data-name="إسطنبول">
+    <img src="https://source.unsplash.com/600x400/?istanbul" />
     <div class="content">
       <h2>بغداد → إسطنبول</h2>
       <p class="price">300$</p>
@@ -114,9 +132,8 @@
     </div>
   </div>
 
-  <!-- رحلة 3 -->
-  <div class="card">
-    <img src="https://source.unsplash.com/600x400/?dubai,city" alt="">
+  <div class="card" data-price="280" data-name="دبي">
+    <img src="https://source.unsplash.com/600x400/?dubai" />
     <div class="content">
       <h2>بغداد → دبي</h2>
       <p class="price">280$</p>
@@ -129,22 +146,46 @@
 </div>
 
 <script>
-  const search = document.getElementById("search");
-  const cards = document.querySelectorAll(".card");
+const search = document.getElementById("search");
+const sort = document.getElementById("sort");
+const container = document.getElementById("cards");
 
-  search.addEventListener("input", function(){
-    let value = this.value.toLowerCase();
+let cards = Array.from(document.querySelectorAll(".card"));
 
-    cards.forEach(card => {
-      let text = card.innerText.toLowerCase();
+/* 🔍 البحث */
+search.addEventListener("input", function(){
+  let value = this.value.toLowerCase();
 
-      if(text.includes(value)){
-        card.style.display = "block";
-      } else {
-        card.style.display = "none";
-      }
-    });
+  cards.forEach(card => {
+    let text = card.innerText.toLowerCase();
+    card.style.display = text.includes(value) ? "block" : "none";
   });
+});
+
+/* 🔃 الترتيب */
+sort.addEventListener("change", function(){
+
+  let value = this.value;
+
+  if(value === "priceLow"){
+    cards.sort((a,b) => a.dataset.price - b.dataset.price);
+  }
+
+  else if(value === "priceHigh"){
+    cards.sort((a,b) => b.dataset.price - a.dataset.price);
+  }
+
+  else if(value === "name"){
+    cards.sort((a,b) => a.dataset.name.localeCompare(b.dataset.name, 'ar'));
+  }
+
+  else{
+    return;
+  }
+
+  container.innerHTML = "";
+  cards.forEach(card => container.appendChild(card));
+});
 </script>
 
 </body>

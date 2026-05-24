@@ -1,58 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>مكتب سفرتي</title>
-
-  <style>
-    body{
-      font-family: Arial;
-      background:#f4f4f4;
-      text-align:center;
-      padding:40px;
-    }
-
-    .card{
-      background:white;
-      padding:25px;
-      border-radius:15px;
-      max-width:400px;
-      margin:auto;
-      box-shadow:0 0 10px rgba(0,0,0,0.1);
-    }
-
-    button{
-      background:green;
-      color:white;
-      border:none;
-      padding:15px 25px;
-      border-radius:10px;
-      font-size:18px;
-      cursor:pointer;
-    }
-  </style>
-</head>
-
-<body>
-
-<div class="card">
-  <h1>مكتب الريسان</h1>
-
-  <p>رحلات بغداد - مشهد</p>
-
-  <p>السعر: 250$</p>
-
-  <a href="https://wa.me/9647749915039?text=مرحباً أريد الحجز بغداد مشهد">
-    <button>احجز عبر واتساب</button>
-  </a>
-</div>
-
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="ar">
-<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>مكتب السفر</title>
@@ -68,8 +16,18 @@
     }
 
     h1{
-      color:#222;
+      margin-bottom:10px;
+    }
+
+    /* مربع البحث */
+    input{
+      width:90%;
+      max-width:400px;
+      padding:12px;
+      border-radius:10px;
+      border:1px solid #ccc;
       margin-bottom:20px;
+      font-size:16px;
     }
 
     .container{
@@ -108,6 +66,10 @@
       width:100%;
       font-size:16px;
     }
+
+    .hidden{
+      display:none;
+    }
   </style>
 </head>
 
@@ -115,7 +77,10 @@
 
 <h1>✈️ رحلات مكتب السفر</h1>
 
-<div class="container">
+<!-- مربع البحث -->
+<input type="text" id="search" placeholder="ابحث عن رحلة (مثلاً: إسطنبول)">
+
+<div class="container" id="cards">
 
   <!-- رحلة 1 -->
   <div class="card">
@@ -146,19 +111,24 @@
 
 </div>
 
+<script>
+  const search = document.getElementById("search");
+  const cards = document.querySelectorAll(".card");
+
+  search.addEventListener("input", function(){
+    let value = this.value.toLowerCase();
+
+    cards.forEach(card => {
+      let text = card.innerText.toLowerCase();
+
+      if(text.includes(value)){
+        card.style.display = "block";
+      } else {
+        card.style.display = "none";
+      }
+    });
+  });
+</script>
+
 </body>
 </html>
-<div class="card">
-  <h2>بغداد → وجهة جديدة</h2>
-  <p class="price">السعر</p>
-  <a href="https://wa.me/رقمك?text=رسالة">
-    <button>احجز عبر واتساب</button>
-  </a>
-</div>
-<div class="card">
-  <h2>بغداد → وجهة جديدة</h2>
-  <p class="price">السعر</p>
-  <a href="https://wa.me/رقمك?text=رسالة">
-    <button>احجز عبر واتساب</button>
-  </a>
-</div>
